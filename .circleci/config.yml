@@ -77,7 +77,8 @@ jobs:
           command: |
             gcloud auth activate-service-account --key-file=cluster/account.json
             gsutil cp -r keys gs://naesheim-home-terraform
-            gcloud beta container clusters get-credentials naesheim-production --region europe-west3 --project naesheim-home
+            gcloud container clusters get-credentials naesheim-production --region europe-west3 --project naesheim-home
+            gcloud config set container/use_client_certificate True
       - persist_to_workspace:
           root: ~/.kube
           paths:
@@ -92,6 +93,7 @@ jobs:
           at: ~/.kube
       - run:
           command: |
+            export CLOUDSDK_CONTAINER_USE_CLIENT_CERTIFICATE=True
             helmsman --apply -f apps/basic_tools.toml
           
 workflows:
