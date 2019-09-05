@@ -44,4 +44,4 @@ useTiller = true
     enabled = true
     chart = "praqma/cert-issuer"
     version = "1.0.0"
-    valuesFile= "valuefiles/cert-issuer.yaml"
+    valuesFile= "cert-issuer.yaml"

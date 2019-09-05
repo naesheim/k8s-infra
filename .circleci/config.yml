@@ -87,7 +87,7 @@ jobs:
       - run:
           working_directory: /tmp/workspace/
           command: |
-            export ENDPOINT $(cat keys/output.txt)
+            export ENDPOINT=$(cat keys/output.txt)
             helmsman --apply -f apps/basic_tools.toml
           
 workflows:
