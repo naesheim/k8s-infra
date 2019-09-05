@@ -77,8 +77,8 @@ jobs:
           command: |
             gcloud auth activate-service-account --key-file=cluster/account.json
             gsutil cp -r keys gs://naesheim-home-terraform
-            gcloud container clusters get-credentials naesheim-production --region europe-west3 --project naesheim-home
             gcloud config set container/use_client_certificate True
+            gcloud container clusters get-credentials naesheim-production --region europe-west3 --project naesheim-home
       - persist_to_workspace:
           root: ~/.kube
           paths:
@@ -87,6 +87,7 @@ jobs:
   deploy_apps:
     docker:
       - image: praqma/helmsman:v1.12.0-helm-v2.14.3
+
     steps:
       - checkout
       - attach_workspace:
