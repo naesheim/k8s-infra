@@ -4,9 +4,10 @@ caKey    = "gs://naesheim-home-terraform/keys/cluster_client_key.key"
 caClient = "gs://naesheim-home-terraform/keys/client_certificate.crt"
 
 [settings]
+kubeContext = "k8s-gcloud"
 username = "$CLUSTER_USERNAME"
 password = "$CLUSTER_PASSWORD" 
-clusterURI = "$DEV_CLUSTER_URI"
+clusterURI = "$ENDPOINT"
 
 
 [namespaces]
@@ -26,8 +27,6 @@ useTiller = true
     enabled = true
     chart = "stable/nginx-controller"
     version = "1.19.0"
-    [apps.nginx-controller.set]
-    "controller.service.LoadBalancerIP" = "$ENDPOINT"
 
     [apps.cert-manager]
     name = "cert-manager"
