@@ -16,6 +16,7 @@ jobs:
           root: /tmp/workspace
           paths:
             - cluster/*
+            - apps/*
 
   validate:
     docker:
@@ -70,11 +71,10 @@ jobs:
       - image: google/cloud-sdk
     steps:
       - attach_workspace:
-          at: /tmp/workspace/cluster
+          at: /tmp/workspace/
       - run:
           working_directory: /tmp/workspace/cluster
           command: |
-            echo $GCLOUD_CREDENTIALS > account.json
             gcloud auth activate-service-account --key-file=account.json
             gsutil cp -r keys gs://naesheim-home-terraform
   
