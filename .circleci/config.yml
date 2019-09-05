@@ -73,9 +73,9 @@ jobs:
       - attach_workspace:
           at: /tmp/workspace/
       - run:
-          working_directory: /tmp/workspace/cluster
+          working_directory: /tmp/workspace/
           command: |
-            gcloud auth activate-service-account --key-file=account.json
+            gcloud auth activate-service-account --key-file=cluster/account.json
             gsutil cp -r keys gs://naesheim-home-terraform
   
   deploy_apps:
@@ -87,7 +87,7 @@ jobs:
       - run:
           working_directory: /tmp/workspace/
           command: |
-            export ENDPOINT $(cat key/output.txt)
+            export ENDPOINT $(cat keys/output.txt)
             helmsman --apply -f apps/basic_tools.toml
           
 workflows:
