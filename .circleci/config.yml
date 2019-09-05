@@ -87,10 +87,10 @@ jobs:
     docker:
       - image: praqma/helmsman:v1.12.0-helm-v2.14.3
     steps:
+      - checkout
       - attach_workspace:
-          at: /tmp/workspace
+          at: ~/.kube
       - run:
-          working_directory: /tmp/workspace/
           command: |
             helmsman --apply -f apps/basic_tools.toml
           
