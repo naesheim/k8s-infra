@@ -1,0 +1,24 @@
+# Default values for cert-issuer.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+letsencrypt:
+  production:
+    type: ClusterIssuer # ClusterIssuer or Issuer
+    acmeEmail: hg.nesheim@gmail.com
+    name: letsencrypt-production
+    apiVersion: 2
+    http01:
+      enabled: true
+    dns01: 
+      enabled: false  
+  
+
+# These providers will be added to all issuers above with dns01.enabled = true
+dnsProviders:
+  - name: google-dns
+    provider: clouddns # either clouddns, azuredns 
+    config: 
+      # check https://docs.cert-manager.io/en/latest/tasks/acme/configuring-dns01/google.html
+      googleProject: naesheim-home
+      serviceAccountSecretName: cert-manager-google-serviceaccount # the secret containing the google cloud credentials with DNS admin permission
+      serviceAccountSecretKey: service-account.json

@@ -1,13 +1,13 @@
-[certificates]
-caCrt    = "gs://naesheim-home-terraform/keys/cluster_ca_certificate.crt"
-caKey    = "gs://naesheim-home-terraform/keys/cluster_client_key.key"
-caClient = "gs://naesheim-home-terraform/keys/client_certificate.crt"
+# [certificates]
+# caCrt    = "gs://naesheim-home-terraform/keys/cluster_ca_certificate.crt"
+# caKey    = "gs://naesheim-home-terraform/keys/cluster_client_key.key"
+# caClient = "gs://naesheim-home-terraform/keys/client_certificate.crt"
 
-[settings]
-kubeContext = "k8s-gcloud"
-username = "$CLUSTER_USERNAME"
-password = "$CLUSTER_PASSWORD" 
-clusterURI = "$ENDPOINT"
+# [settings]
+# kubeContext = "k8s-gcloud"
+# username = "$CLUSTER_USERNAME"
+# password = "$CLUSTER_PASSWORD" 
+# clusterURI = "${ENDPOINT}"
 
 
 [namespaces]

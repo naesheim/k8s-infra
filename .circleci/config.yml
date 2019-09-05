@@ -77,6 +77,11 @@ jobs:
           command: |
             gcloud auth activate-service-account --key-file=cluster/account.json
             gsutil cp -r keys gs://naesheim-home-terraform
+            gcloud beta container clusters get-credentials naesheim-production --region europe-west3 --project naesheim-home
+      - persist_to_workspace:
+          root: ~/.kube
+          paths:
+            - config
   
   deploy_apps:
     docker:
@@ -87,7 +92,6 @@ jobs:
       - run:
           working_directory: /tmp/workspace/
           command: |
-            export ENDPOINT=$(cat keys/output.txt)
             helmsman --apply -f apps/basic_tools.toml
           
 workflows:
