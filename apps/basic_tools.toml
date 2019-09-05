@@ -1,0 +1,47 @@
+[certificates]
+caCrt    = "gs://naesheim-home-terraform/keys/cluster_ca_certificate.crt"
+caKey    = "gs://naesheim-home-terraform/keys/cluster_client_key.key"
+caClient = "gs://naesheim-home-terraform/keys/client_certificate.crt"
+
+[settings]
+username = "$CLUSTER_USERNAME"
+password = "$CLUSTER_PASSWORD" 
+clusterURI = "$DEV_CLUSTER_URI"
+
+
+[namespaces]
+[namespaces.kube-system]
+ useTiller = true
+[namespaces.default]
+useTiller = true
+
+# define the desired state of your applications helm charts
+# each contains the following:
+
+[apps]
+    [apps.nginx-controller]
+    name = "nginx-controller"
+    description = "nginx-controller"
+    namespace = "kube-system"
+    enabled = true
+    chart = "stable/nginx-controller"
+    version = "1.19.0"
+    [apps.nginx-controller.set]
+    "controller.service.LoadBalancerIP=$ENDPOINT"
+
+    [apps.cert-manager]
+    name = "cert-manager"
+    description = "cert-manager"
+    namespace = "kube-system"
+    enabled = true
+    chart = "stable/cert-manager"
+    version = "v0.6.7"
+
+    [apps.cert-issuer]
+    name = "cert-isser"
+    description = "cert-isser"
+    namespace = "kube-system"
+    enabled = true
+    chart = "praqma/cert-issuer"
+    version = "1.0.0"
+    valuesFile= "valuefiles/cert-issuer-values.yaml"

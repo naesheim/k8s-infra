@@ -1,0 +1,113 @@
+version: 2.1
+jobs:
+  init:
+    docker:
+      - image: hashicorp/terraform:light
+    working_directory: /tmp/workspace
+    steps:
+      - checkout
+      - run:
+          name: init terraform
+          command: |
+            cd cluster
+            echo $GCLOUD_CREDENTIALS > account.json
+            terraform init
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - cluster/*
+
+  validate:
+    docker:
+      - image: hashicorp/terraform:light
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: validate terraform
+          working_directory: /tmp/workspace/cluster
+          command: terraform validate
+
+  plan:
+    docker:
+      - image: hashicorp/terraform:light
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: terraform plan
+          working_directory: /tmp/workspace/cluster
+          command: |
+            terraform plan -var cluster_username=$CLUSTER_USERNAME -var cluster_password=$CLUSTER_PASSWORD
+
+  apply:
+    docker:
+      - image: hashicorp/terraform:light
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: apply terraform
+          working_directory: /tmp/workspace/cluster
+          command: |
+            terraform apply -var cluster_username=$CLUSTER_USERNAME -var cluster_password=$CLUSTER_PASSWORD -auto-approve
+      - run:
+          name: store certs
+          working_directory: /tmp/workspace/cluster
+          command: |
+            mkdir keys
+            echo $(terraform output cluster_certificate) | base64 -d > keys/client_certificate.crt
+            echo $(terraform output cluster_client_key) | base64 -d > keys/cluster_client_key.key
+            echo $(terraform output cluster_ca_certificate) | base64 -d > keys/cluster_ca_certificate.crt
+            echo $(terraform output endpoint) > keys/output.txt
+      - persist_to_workspace:
+          root: /tmp/workspace/cluster
+          paths:
+            - keys/*
+
+  store_certs:
+    docker:
+      - image: google/cloud-sdk
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace/cluster
+      - run:
+          working_directory: /tmp/workspace/cluster
+          command: |
+            echo $JSON_CREDENTIALS > account.json
+            gcloud auth activate-service-account --key-file=account.json
+            gsutil cp -r keys gs://naesheim-home-terraform
+  
+  deploy_apps:
+    docker:
+      - image: praqma/helmsman:v1.12.0-helm-v2.14.3
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          working_directory: /tmp/workspace/
+          command: |
+            export ENDPOINT $(cat key/output.txt)
+            helmsman --apply -f apps/basic_tools.toml
+          
+workflows:
+  version: 2
+  build-test-deploy:
+    jobs:
+      - init
+      - validate:
+          requires:
+            - init
+      - plan:
+          requires:
+            - validate
+      - apply:
+          requires:
+            - plan
+      - store_certs:
+          requires:
+            - apply
+      - deploy_apps:
+          requires: 
+            - store_certs
+

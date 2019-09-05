@@ -1,0 +1,13 @@
+# Default values for cert-issuer.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+letsencrypt:
+  production:
+    type: ClusterIssuer
+    acmeEmail: hg.nesheim@gmail.com
+    name: letsencrypt-prod
+    http01:
+      enabled: true
+    dns01: 
+      enabled: true 
+

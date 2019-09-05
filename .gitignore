@@ -1,0 +1,6 @@
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+
+cluster/.terraform
+cluster/*.json
