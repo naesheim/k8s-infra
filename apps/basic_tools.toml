@@ -27,7 +27,7 @@ useTiller = true
     chart = "stable/nginx-controller"
     version = "1.19.0"
     [apps.nginx-controller.set]
-    "controller.service.LoadBalancerIP=$ENDPOINT"
+    "controller.service.LoadBalancerIP" = "$ENDPOINT"
 
     [apps.cert-manager]
     name = "cert-manager"
@@ -44,4 +44,4 @@ useTiller = true
     enabled = true
     chart = "praqma/cert-issuer"
     version = "1.0.0"
-    valuesFile= "valuefiles/cert-issuer-values.yaml"
+    valuesFile= "valuefiles/cert-issuer.yaml"
