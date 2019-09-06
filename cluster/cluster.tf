@@ -15,6 +15,9 @@ resource "google_container_cluster" "production" {
     master_auth {
         username = "${var.cluster_username}"
         password = "${var.cluster_password}"
+        client_certificate_config {
+            issue_client_certificate = true
+        }
     }
 }
 
@@ -35,6 +38,7 @@ resource "google_container_node_pool" "production_pool" {
         oauth_scopes = [
             "https://www.googleapis.com/auth/logging.write",
             "https://www.googleapis.com/auth/monitoring",
+            "https://www.googleapis.com/auth/compute",
         ]
     }
 }
