@@ -1,20 +1,20 @@
-# [certificates]
-# caCrt    = "gs://naesheim-home-terraform/keys/cluster_ca_certificate.crt"
-# caKey    = "gs://naesheim-home-terraform/keys/cluster_client_key.key"
-# caClient = "gs://naesheim-home-terraform/keys/client_certificate.crt"
+[certificates]
+caCrt    = "gs://naesheim-home-terraform/keys/cluster_ca_certificate.crt"
+caKey    = "gs://naesheim-home-terraform/keys/cluster_client_key.key"
+caClient = "gs://naesheim-home-terraform/keys/client_certificate.crt"
 
-# [settings]
-# kubeContext = "k8s-gcloud"
-# username = "$CLUSTER_USERNAME"
-# password = "$CLUSTER_PASSWORD" 
-# clusterURI = "${ENDPOINT}"
+[settings]
+kubeContext = "k8s-gcloud"
+username = "$CLUSTER_USERNAME"
+password = "$CLUSTER_PASSWORD" 
+clusterURI = "https://${ENDPOINT}"
 
 
 [namespaces]
 [namespaces.kube-system]
- useTiller = true
+ installTiller = true
 [namespaces.default]
-useTiller = true
+installTiller = true
 
 # define the desired state of your applications helm charts
 # each contains the following:

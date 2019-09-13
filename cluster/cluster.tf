@@ -19,6 +19,9 @@ resource "google_container_cluster" "production" {
             issue_client_certificate = true
         }
     }
+    lifecycle {
+        ignore_changes = [ "master_auth"]
+    }
 }
 
 resource "google_container_node_pool" "production_pool" {
