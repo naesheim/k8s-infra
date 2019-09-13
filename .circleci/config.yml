@@ -100,8 +100,9 @@ workflows:
       - plan:
           requires:
             - validate
-      - apply:
+      - hold:
           type: approval
+      - apply:
           requires:
             - plan
       - store_certs:
