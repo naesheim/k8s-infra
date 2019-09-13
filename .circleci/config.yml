@@ -87,6 +87,7 @@ jobs:
       - run:
           working_directory: /tmp/workspace/
           command: |
+            export 'ENDPOINT=$(cat keys/output.txt)' >> $BASH_ENV
             helmsman --apply -f apps/basic_tools.toml
           
 workflows:
@@ -102,9 +103,11 @@ workflows:
             - validate
       - hold:
           type: approval
-      - apply:
           requires:
             - plan
+      - apply:
+          requires:
+            - hold
       - store_certs:
           requires:
             - apply
