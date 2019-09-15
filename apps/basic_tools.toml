@@ -9,6 +9,10 @@ username = "$CLUSTER_USERNAME"
 password = "$CLUSTER_PASSWORD" 
 clusterURI = "https://${ENDPOINT}"
 
+[helmRepos]
+  praqma = "https://praqma-helm-repo.s3.amazonaws.com/"
+  jetstack = "https://charts.jetstack.io/"
+
 
 [namespaces]
 [namespaces.kube-system]
@@ -21,11 +25,11 @@ installTiller = true
 
 [apps]
     [apps.nginx-controller]
-    name = "nginx-controller"
+    name = "nginx-ingress"
     description = "nginx-controller"
     namespace = "kube-system"
     enabled = true
-    chart = "stable/nginx-controller"
+    chart = "stable/nginx-ingress"
     version = "1.19.0"
 
     [apps.cert-manager]
