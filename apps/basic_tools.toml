@@ -42,8 +42,8 @@ clusterURI = "https://${ENDPOINT}"
     version = "v0.6.7"
 
     [apps.cert-issuer]
-    name = "cert-isser"
-    description = "cert-isser"
+    name = "cert-issuer"
+    description = "cert-issuer"
     namespace = "kube-system"
     enabled = true
     chart = "praqma/cert-issuer"
