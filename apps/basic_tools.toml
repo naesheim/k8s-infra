@@ -16,9 +16,12 @@ clusterURI = "https://${ENDPOINT}"
 
 [namespaces]
 [namespaces.kube-system]
- installTiller = true
+    installTiller = true
+    tillerRole = "cluster-admin"
+
 [namespaces.default]
-installTiller = true
+    installTiller = true
+    tillerRole = "cluster-admin"
 
 # define the desired state of your applications helm charts
 # each contains the following:
