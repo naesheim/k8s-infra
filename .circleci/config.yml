@@ -88,7 +88,6 @@ jobs:
           working_directory: /tmp/workspace/
           command: |
             export ENDPOINT=$(cat keys/output.txt)
-            kubectl apply -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.10/deploy/manifests/00-crds.yaml
             helmsman --apply -f apps/basic_tools.toml
           
 workflows:
