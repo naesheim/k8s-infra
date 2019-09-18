@@ -10,7 +10,7 @@ letsencrypt:
     http01:
       enabled: true
     dns01: 
-      enabled: false  
+      enabled: true  
   
 
 # These providers will be added to all issuers above with dns01.enabled = true

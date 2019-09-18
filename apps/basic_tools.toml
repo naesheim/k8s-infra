@@ -6,7 +6,7 @@ caClient = "gs://naesheim-home-terraform/keys/client_certificate.crt"
 [settings]
 kubeContext = "k8s-gcloud"
 username = "$CLUSTER_USERNAME"
-password = "$CLUSTER_PASSWORD" 
+password = "$CLUSTER_PASSWORD"
 clusterURI = "https://${ENDPOINT}"
 
 [helmRepos]
@@ -38,8 +38,8 @@ clusterURI = "https://${ENDPOINT}"
     description = "cert-manager"
     namespace = "kube-system"
     enabled = true
-    chart = "stable/cert-manager"
-    version = "v0.6.7"
+    chart = "jetstack/cert-manager"
+    version = "v0.7.0"
 
     [apps.cert-issuer]
     name = "cert-issuer"
