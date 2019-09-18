@@ -39,7 +39,9 @@ clusterURI = "https://${ENDPOINT}"
     namespace = "kube-system"
     enabled = true
     chart = "jetstack/cert-manager"
-    version = "v0.7.0"
+    version = "v0.10.0"
+    [apps.cert-manager.set]
+    "webhook.enabled"=false
 
     [apps.cert-issuer]
     name = "cert-issuer"
