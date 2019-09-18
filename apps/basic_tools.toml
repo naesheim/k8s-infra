@@ -41,7 +41,7 @@ clusterURI = "https://${ENDPOINT}"
     chart = "jetstack/cert-manager"
     version = "v0.10.0"
     [apps.cert-manager.set]
-    "webhook.enabled"=false
+    "webhook.enabled"="false"
 
     [apps.cert-issuer]
     name = "cert-issuer"
